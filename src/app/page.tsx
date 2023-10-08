@@ -11,7 +11,7 @@ const Home = () => {
   );
 };
 
-// Exort with dynamic
+// Export with dynamic
 export default dynamic(() => Promise.resolve(Home), {
   ssr: false,
 });
