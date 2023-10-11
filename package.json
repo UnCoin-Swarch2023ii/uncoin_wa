@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "antd": "^5.9.4",
+    "antd-img-crop": "^4.13.0",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
