@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/styles.scss";
 
 import StyledComponentsRegistry from "../../lib/AntdRegistry";
+import AuthProvider from "@/context/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
+        {/* <AuthProvider> */}
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );
