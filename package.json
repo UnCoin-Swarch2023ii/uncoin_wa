@@ -11,7 +11,9 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.17.0",
     "@ant-design/icons": "^5.2.6",
+    "@apollo/client": "^3.8.5",
     "antd": "^5.9.4",
+    "apollo-link-context": "^1.0.20",
     "js-cookie": "^3.0.5",
     "next": "13.5.4",
     "react": "^18",

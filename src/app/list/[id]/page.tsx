@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, Input, List } from "antd";
 import dynamic from "next/dynamic";
 import MainLayout from "@/components/Layout/MainLayout";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import { useGetTransactionsByUserId } from "@/services/transactions";
+import { useGetShipmentsByUser } from "@/services/billing";
 
 const { Search } = Input;
 
@@ -30,7 +32,6 @@ const Page = () => {
       description: "07/10/2023",
       type: "entry",
     },
-    // Add more items as needed
   ]);
 
   const [listDataBilling, setListDataBilling] = useState([
@@ -55,6 +56,36 @@ const Page = () => {
   const filteredListBilling = listDataBilling.filter((item) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  const getDataTransactions = async () => {
+    try {
+      const dataTransactions = await useGetTransactionsByUserId(
+        "651f60db3917ba6117d07caf",
+        "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJleHAiOjE2OTc0NTIyODIsImlhdCI6MTY5NzQxNjI4Mn0.2qkQCQ19z6Htp9v07aqxGeyTxvvH7dMH422mWYE8q-Q"
+      );
+      setListDataTransactions(dataTransactions);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  const getDataBilling = async () => {
+    try {
+      const dataShipments = await useGetShipmentsByUser(
+        "651f60db3917ba6117d07caf",
+        "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJleHAiOjE2OTc0NTIyODIsImlhdCI6MTY5NzQxNjI4Mn0.2qkQCQ19z6Htp9v07aqxGeyTxvvH7dMH422mWYE8q-Q"
+      );
+
+      setListDataBilling(dataShipments);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataTransactions();
+    getDataBilling();
+  }, []);
 
   return (
     <MainLayout>
