@@ -1,0 +1,118 @@
+.containerLogin {
+    height: 100vh;
+    width: 100vw;
+    background: #9FE0DB;
+    font-family: 'Playfair', serif;
+  
+    .mainContainerLogin {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+  
+      h1 {
+        color: #2b3467;
+        font-family: 'Montserrat';
+      }
+      span{
+        font-family: 'Montserrat';
+      }
+  
+      .card {
+        min-height: 85%;
+        min-width: 70%;
+        border-radius: 1.5rem;
+        background: $color-base;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        position: relative;
+  
+        .formLogin {
+          min-width: 50%;
+          
+        }
+  
+        .createAccountInfo {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          > p {
+            margin: 0;
+          }
+        }
+  
+        .infoContainer {
+          width: 50%;
+          height: 85%;
+          background-color: $color-base;
+          background-size: cover;
+          margin: auto;
+          position: absolute;
+          transition: transform 0.5s ease-in; /* Use CSS transition for smooth animation */
+          transform: translateX(50%) ;
+          z-index: 5;
+        }
+        .responsive {
+          width: 100%;
+          height: auto;
+        }
+        .button{
+          justify-content: center;
+        }
+        .translate { 
+          transition: transform 0.5s ease-in; /* Use CSS transition for smooth animation *//* Use CSS transition for smooth animation */
+          transform: translateX(-50%) ;
+        }
+      }
+    }
+  }
+    
+  
+  .url {
+    color: #f2bc66;
+    text-decoration: none;
+    margin-left: 0.5rem;
+    font-family: 'Montserrat';
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .out-top {
+    animation: rotate 25s linear infinite;
+    transform-origin: 13px 25px;
+  }
+  .in-top {
+    animation: rotate 15s linear infinite;
+    transform-origin: 13px 25px;
+  }
+  .out-bottom {
+    animation: rotate 30s linear infinite;
+    transform-origin: 84px 93px;
+  }
+  .in-bottom {
+    animation: rotate 20s linear infinite;
+    transform-origin: 84px 93px;
+  }
+  .svgcontainer {
+    width :100vw;// Set the width to the desired size
+    height:100vh;
+    overflow: hidden;
+  }
