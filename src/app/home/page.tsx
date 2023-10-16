@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { Statistic, Button , Col, Row, ConfigProvider, theme} from "antd";
 import dynamic from "next/dynamic";

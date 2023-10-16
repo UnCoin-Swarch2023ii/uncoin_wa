@@ -23,15 +23,15 @@
 
 .updateButton {
   margin-top: 16px;
-  background-color: $color-primary1;
+  // background-color: $color-primary1;
 }
 
 .updateButton:hover {
   margin-top: 16px;
-  border-color: aqua;
-  background-color: brown;
+  // border-color: aqua;
+  // background-color: brown;
   color: rgb(255, 255, 255);
-  background-color: $color-primary2;
+  // background-color: $color-primary2;
 }
 
 .col {
@@ -45,7 +45,7 @@
   flex-direction: column;
   align-items: center;
   font-size: 20px;
-  color: $color-primary1;
+  // color: $color-primary1;
 }
 
 .col a:hover {
