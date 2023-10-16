@@ -5,10 +5,32 @@ import dynamic from "next/dynamic";
 import MainLayout from "@/components/Layout/MainLayout";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { AuthContext } from "@/context/AuthContext";
+import { useSignIn } from "@/services/user";
 const { Search } = Input;
 import Head from "next/head";
+import { createContext } from "vm";
 const imagen = "/possible1.png"
 const Page = () => {
+  const { login } = createContext(AuthContext);
+
+  const onFinish = async (values: any) => {
+    try {
+      const resp = await useSignIn(values);
+      if (resp.status === 200) {
+        login(resp.data.token, {
+          id: resp.data.id,
+          username: resp.data.username,
+          role: resp.data.role,
+        });
+      } else {
+        message.error("Login fallido");
+      }
+    } catch (error: any) {
+      Modal.error({ content: error.response.data.msg });
+    }
+  };
+
     const onFinishFailed = () => {
         Modal.error({
           title: "Inicio de sesión fallido",
@@ -64,7 +86,7 @@ const Page = () => {
             className="formLogin"
             layout="vertical"
             wrapperCol={{ span: 24 }}
-            //onFinish={onFinish}
+            onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
   
