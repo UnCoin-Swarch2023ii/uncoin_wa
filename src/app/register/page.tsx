@@ -13,14 +13,16 @@ const Page = () => {
   const onFinish = async (values: any) => {
     try {
       const resp = await useSignUp(values);
+      console.log(resp);
       // login(resp.signInUser.token, {
       //     id: stringify(resp.signInUser.users.document),
       //     username: resp.signInUser.users.userLastName,
       //     role: "user",
       //   });
-      localStorage.setItem("token", resp.signInUser.token);
-      localStorage.setItem("id", resp.signInUser.users.document);
-      localStorage.setItem("balance", resp.signInUser.users.balance);
+      console.log(resp.signUpUser.token);
+      localStorage.setItem("token", resp.signUpUser.token);
+      localStorage.setItem("id", resp.signUpUser.users.document);
+      localStorage.setItem("balance", resp.signUpUser.users.balance);
       router.push("/home");
     } catch (error: any) {
       console.log(error);
@@ -83,6 +85,7 @@ const Page = () => {
               name="wrap"
               labelAlign="left"
               onFinishFailed={onFinishFailed}
+              onFinish={onFinish}
               scrollToFirstError
             >
               <Form.Item
@@ -112,7 +115,7 @@ const Page = () => {
                 <Input placeholder="Escribe tu apellido" />
               </Form.Item>
               <Form.Item
-                name="Document"
+                name="document"
                 label="Documento"
                 rules={[
                   {
@@ -125,7 +128,7 @@ const Page = () => {
               >
                 <InputNumber maxLength={12} minLength={6}  style={{ width: "100%" }} placeholder="Escribe tu numero de identificacíon" />
               </Form.Item>
-              <Form.Item
+              {/* <Form.Item
                 name="password"
                 label="Contraseña"
                 rules={[
@@ -160,7 +163,7 @@ const Page = () => {
                 hasFeedback
               >
                 <Input.Password placeholder="Confirma tu contraseña" />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item>
                 <Button  type="primary" htmlType="submit">
                   Registrarme
