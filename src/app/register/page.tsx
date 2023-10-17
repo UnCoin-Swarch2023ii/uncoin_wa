@@ -4,13 +4,32 @@ import { Tabs, Input, List, Button, Form, Modal, message,Space,InputNumber } fro
 import dynamic from "next/dynamic";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
-const { Search } = Input;
+import { useSignUp } from "@/services/user";
 import Head from "next/head";
 const imagen = "/save.png"
+import { useRouter } from 'next/navigation'
 const Page = () => {
+  const router = useRouter();
+  const onFinish = async (values: any) => {
+    try {
+      const resp = await useSignUp(values);
+      // login(resp.signInUser.token, {
+      //     id: stringify(resp.signInUser.users.document),
+      //     username: resp.signInUser.users.userLastName,
+      //     role: "user",
+      //   });
+      localStorage.setItem("token", resp.signInUser.token);
+      localStorage.setItem("id", resp.signInUser.users.document);
+      localStorage.setItem("balance", resp.signInUser.users.balance);
+      router.push("/home");
+    } catch (error: any) {
+      console.log(error);
+      Modal.error({content: "Incorrecto Registro"});
+    }
+  };
     const onFinishFailed = () => {
         Modal.error({
-          title: "Inicio de sesión fallido",
+          title: "Registro fallido",
           content: "Respira profundamente e inténtalo de nuevo",
           cancelButtonProps: { style: { display: "none" } },
         });
@@ -173,7 +192,7 @@ const Page = () => {
               scrollToFirstError
             >
               <Form.Item
-                name="userName" //Label usuario
+                name="username" //Label usuario
                 label="Nombre de la empresa"
                 rules={[
                   {

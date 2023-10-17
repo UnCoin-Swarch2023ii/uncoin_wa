@@ -18,14 +18,17 @@ const SIGNIN = gql`
 `;
 
 export const comSignIn = async (input: any) => {
+  console.log("input", input);
   try {
     client.cache.reset();
     const result = await client.mutate({
       mutation: SIGNIN,
       variables: { input },
     });
+    console.log("result", result);
     return result.data;
   } catch (error) {
+    console.log("error", error);
     throw error; // Re-throw the error to the caller if needed
   }
 };

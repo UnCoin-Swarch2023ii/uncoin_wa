@@ -22,8 +22,8 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
-  getItem('Inicio', "\home", <HomeOutlined />),
-  getItem('Movimientos', "\list"),
+  getItem('Inicio', "/home", <HomeOutlined />),
+  getItem('Movimientos', "/list"),
   getItem('Salir', '3', <PoweroffOutlined />),
 ];
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
