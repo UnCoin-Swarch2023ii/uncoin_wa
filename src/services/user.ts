@@ -18,7 +18,7 @@ const SIGNIN = gql`
   }
 `;
 const REGISTER = gql`
-  mutation signUpUser($input: signInInput) {
+  mutation signUpUser($input: UserInput) {
     signUpUser(input: $input) {
       token
       users {
@@ -61,9 +61,9 @@ export const useSignIn = async (input: any) => {
 };
 
 export const useSignUp = async (input: any) => {
+
   try {
     client.cache.reset();
-    //console.log("input", input);
     const result = await client.mutate({
       mutation: REGISTER,
       variables: { input },
