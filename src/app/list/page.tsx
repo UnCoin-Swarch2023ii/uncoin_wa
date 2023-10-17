@@ -4,7 +4,11 @@ import React, { useState, useEffect } from "react";
 import { Tabs, Input, List } from "antd";
 import dynamic from "next/dynamic";
 import MainLayout from "@/components/Layout/MainLayout";
-import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import {
+  DoubleRightOutlined,
+  DownCircleOutlined,
+  UpCircleOutlined,
+} from "@ant-design/icons";
 import { useGetTransactionsByUserId } from "@/services/transactions";
 import { useGetShipmentsByUser } from "@/services/billing";
 
@@ -25,19 +29,19 @@ const Page = () => {
     setSearchText(value);
   };
 
-  const filteredListTransactions = listDataTransactions.filter((item: any) =>
-    item.title.toLowerCase().includes(searchText.toLowerCase())
+  const filteredListTransactions = listDataTransactions.filter(
+    (item: any) =>
+      item.receiverId.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.senderId.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const filteredListBilling = listDataBilling.filter((item: any) =>
-    item.title.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredListBilling = listDataBilling.filter((item: any) => item);
 
   const getDataTransactions = async () => {
     try {
       const dataTransactions = await useGetTransactionsByUserId(
-        "651f60db3917ba6117d07caf",
-        "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJleHAiOjE2OTc0NTIyODIsImlhdCI6MTY5NzQxNjI4Mn0.2qkQCQ19z6Htp9v07aqxGeyTxvvH7dMH422mWYE8q-Q"
+        localStorage.getItem("id") as string,
+        localStorage.getItem("token") as string
       );
       setListDataTransactions(dataTransactions);
     } catch (error) {
@@ -48,13 +52,13 @@ const Page = () => {
   const getDataBilling = async () => {
     try {
       const dataShipments = await useGetShipmentsByUser(
-        "651f60db3917ba6117d07caf",
-        "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJleHAiOjE2OTc0NTIyODIsImlhdCI6MTY5NzQxNjI4Mn0.2qkQCQ19z6Htp9v07aqxGeyTxvvH7dMH422mWYE8q-Q"
+        localStorage.getItem("id") as string,
+        localStorage.getItem("token") as string
       );
 
       setListDataBilling(dataShipments);
     } catch (error) {
-      // console.log(error);
+      setListDataBilling([]);
     }
   };
 
@@ -95,29 +99,36 @@ const Page = () => {
                         }}
                       >
                         <List.Item.Meta
-                          avatar={
-                            item.type === "entry" ? (
-                              <UpCircleOutlined
+                          title={
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                              }}
+                            >
+                              <p>
+                                {item.senderId
+                                  ? item.senderId
+                                  : "No encontrado"}
+                              </p>
+                              {/* Antd right arrow icon */}
+                              <DoubleRightOutlined
                                 style={{
-                                  fontSize: "16px",
-                                  // Green
-                                  color: "#52c41a",
+                                  margin: "0 8px",
+                                  color: "#F2BC66",
                                 }}
                               />
-                            ) : (
-                              <DownCircleOutlined
-                                style={{
-                                  fontSize: "16px",
-                                  // Red
-                                  color: "#f5222d",
-                                }}
-                              />
-                            )
+                              <p>
+                                {item.receiverId
+                                  ? item.receiverId
+                                  : "No encontrado"}
+                              </p>
+                            </div>
                           }
-                          title={item.title}
                           description={item.description}
                         />
-                        <div>100 USD</div>
+                        <div>{item.amount} USD</div>
                       </div>
                     </List.Item>
                   )}
