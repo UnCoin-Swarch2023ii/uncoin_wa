@@ -1,14 +1,18 @@
+"use client";
+
 import { Button } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
-  return (
-    <div className="test">
-      Home
-      <Button type="primary">Button</Button>
-    </div>
-  );
+  const router = useRouter();
+
+  React.useEffect(() => {
+    router.push("/login");
+  }, []);
+
+  return <div className="test"></div>;
 };
 
 // Export with dynamic
