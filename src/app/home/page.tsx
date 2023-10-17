@@ -1,12 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Statistic, Button , Col, Row, ConfigProvider, theme} from "antd";
 import dynamic from "next/dynamic";
 import MainLayout from "@/components/Layout/MainLayout";
 import {ContainerTwoTone, InteractionTwoTone, ProfileTwoTone } from "@ant-design/icons";
-
+import {getUser} from "@/services/user";
 const Page = () => {
-  const [balance, setBalance] = useState(100);
+  const [balance, setBalance] = useState(localStorage.getItem("balance"));
+  const getData = async () => {
+    console.log(localStorage.getItem("token"));
+    //const resp = await getUser(localStorage.getItem("token"),+(localStorage.getItem("id") as string));
+    //console.log(resp);
+    //setBalance(resp.data.data.getUser.balance);
+  }
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <MainLayout>
       <ConfigProvider
