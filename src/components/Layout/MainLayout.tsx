@@ -1,17 +1,16 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, MenuProps, theme } from "antd";
-import {
-  HomeOutlined,
-  PoweroffOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, PoweroffOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
+
 const { Header, Content, Footer } = Layout;
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: 'group',
+  type?: "group"
 ): MenuItem {
   return {
     key,
@@ -22,14 +21,25 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
-  getItem('Inicio', "\home", <HomeOutlined />),
-  getItem('Movimientos', "\list"),
-  getItem('Salir', '3', <PoweroffOutlined />),
+  getItem("Inicio", "/home", <HomeOutlined />),
+  getItem("Movimientos", "/list/123"),
+  getItem("Salir", "logout", <PoweroffOutlined />),
 ];
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const router = useRouter();
+
+  const handleOnClick = (e: any) => {
+    if (e.key === "logout") {
+      localStorage.removeItem("token");
+      router.push("/login");
+    } else {
+      router.push(e.key);
+    }
+  };
 
   return (
     <Layout
@@ -37,13 +47,14 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         minHeight: "100vh",
       }}
     >
-        <div />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items}
-        />
+      <div />
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={["2"]}
+        items={items}
+        onClick={handleOnClick}
+      />
       <Content style={{ padding: "20px 50px" }}>
         <div
           style={{ padding: "10px", background: "#fff", borderRadius: "8px" }}
