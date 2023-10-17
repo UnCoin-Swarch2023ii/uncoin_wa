@@ -13,33 +13,9 @@ const { Search } = Input;
 const Page = () => {
   const [activeTab, setActiveTab] = useState("transactions");
   const [searchText, setSearchText] = useState("");
-  const [listDataTransactions, setListDataTransactions] = useState([
-    {
-      id: 1,
-      title: "Paypal",
-      description: "07/10/2023",
-      type: "entry",
-    },
-    {
-      id: 2,
-      title: "Sergio Sánchez",
-      description: "07/10/2023",
-      type: "exit",
-    },
-    {
-      id: 3,
-      title: "Sara Sánchez",
-      description: "07/10/2023",
-      type: "entry",
-    },
-  ]);
+  const [listDataTransactions, setListDataTransactions] = useState([]);
 
-  const [listDataBilling, setListDataBilling] = useState([
-    { id: 1, title: "Factura 1", description: "07/10/2023" },
-    { id: 2, title: "Factura 2", description: "07/10/2023" },
-    { id: 3, title: "Factura 3", description: "07/10/2023" },
-    // Add more items as needed
-  ]);
+  const [listDataBilling, setListDataBilling] = useState([]);
 
   const handleTabChange = (key: any) => {
     setActiveTab(key);
@@ -49,11 +25,11 @@ const Page = () => {
     setSearchText(value);
   };
 
-  const filteredListTransactions = listDataTransactions.filter((item) =>
+  const filteredListTransactions = listDataTransactions.filter((item: any) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const filteredListBilling = listDataBilling.filter((item) =>
+  const filteredListBilling = listDataBilling.filter((item: any) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -107,7 +83,7 @@ const Page = () => {
                 <List
                   itemLayout="horizontal"
                   dataSource={filteredListTransactions}
-                  renderItem={(item) => (
+                  renderItem={(item: any) => (
                     <List.Item>
                       <div
                         style={{
@@ -162,7 +138,7 @@ const Page = () => {
                 <List
                   itemLayout="horizontal"
                   dataSource={filteredListBilling}
-                  renderItem={(item) => (
+                  renderItem={(item: any) => (
                     <List.Item className="listItemCentered">
                       <List.Item.Meta
                         title={item.title}
