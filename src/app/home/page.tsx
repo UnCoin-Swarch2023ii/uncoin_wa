@@ -44,7 +44,7 @@ const Page = () => {
             {/* <RedoOutlined /> */}
           </Button>
         </div>
-        <div style={{ padding: "90px 100px" }}>
+        <div style={{ padding: "0px 100px", paddingBottom: "90px" }}>
           <Row>
             <Col className="col" xs={8} sm={8} md={8} lg={8} xl={8}>
               <Link href="/list">
