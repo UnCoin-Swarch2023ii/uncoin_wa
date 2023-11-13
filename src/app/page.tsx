@@ -1,13 +1,11 @@
 import { Button } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
+import ModKycApp from "./KYC/page";
 
 const Home = () => {
   return (
-    <div className="test">
-      Home
-      <Button type="primary">Button</Button>
-    </div>
+    <ModKycApp/>
   );
 };
 

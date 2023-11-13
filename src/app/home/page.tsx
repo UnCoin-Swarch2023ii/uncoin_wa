@@ -28,8 +28,8 @@ const Page = () => {
         <div className="mainContainer">
             <Statistic 
               className="balance"
-              title="Saldo"
-              value={balance}
+                title="Saldo"
+                value={balance ?? 0}
               precision={2}/>
             
             <Button className="updateButton" >
