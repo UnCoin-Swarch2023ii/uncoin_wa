@@ -19,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:5001/graphql", // Poner IP de la maquina
+  uri: "https://56b8-2800-486-990-c600-5009-3b0-654b-361c.ngrok-free.app", // Poner IP de la maquina
 });
 
 // Crea el cliente de Apollo

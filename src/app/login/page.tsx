@@ -17,11 +17,11 @@ import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
 import { useSignIn } from "@/services/user";
-import {comSignIn} from "@/services/company";
+import { comSignIn } from "@/services/company";
 import Head from "next/head";
 import { createContext } from "vm";
 import { stringify } from "querystring";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 const imagen = "/possible1.png";
 const { Search } = Input;
 const Page = () => {
@@ -35,23 +35,23 @@ const Page = () => {
         console.log(resp.data.data.signInUser.token);
         login(resp.data.data.signInUser.token, {
           id: resp.data.data.signInUser.users.id,
-          nit: resp.data.data.signInUser.users.nit
-         
+          nit: resp.data.data.signInUser.users.nit,
         });
-      
       } else {
         console.log(resp);
         message.error("Login fallido");
       }
     } catch (error: any) {
-      Modal.error({content: "Usuario o contraseña incorrecta"});
+      Modal.error({ content: "Usuario o contraseña incorrecta" });
     }
   };
 
   const onFinish = async (values: any) => {
     const { login } = createContext(AuthContext);
     try {
+      console.log(52);
       const resp = await useSignIn(values);
+      console.log(resp);
       // login(resp.signInUser.token, {
       //     id: stringify(resp.signInUser.users.document),
       //     username: resp.signInUser.users.userLastName,
@@ -63,7 +63,7 @@ const Page = () => {
       router.push("/home");
     } catch (error: any) {
       console.log(error);
-      Modal.error({content: "Usuario o contraseña incorrecta"});
+      Modal.error({ content: "Usuario o contraseña incorrecta" });
     }
   };
 
@@ -133,11 +133,7 @@ const Page = () => {
                   { required: true, message: "Porfavor ingrese su documento" },
                 ]}
               >
-                <InputNumber
-                  maxLength={12}
-                  minLength={6}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber maxLength={12} style={{ width: "100%" }} />
               </Form.Item>
               <Form.Item
                 name="password"

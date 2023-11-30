@@ -1,12 +1,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button, Checkbox, Form, Input, Popover, message } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Popover,
+  message,
+} from "antd";
 import Modal from "antd/es/modal";
 import MainLayout from "@/components/Layout/MainLayout";
 import {
   ExclamationCircleOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
+import { useAddShipment } from "@/services/billing";
 
 const FacApp: React.FC = () => {
   const [destinatario, setDestinatario] = useState<string | undefined>();
@@ -15,10 +24,22 @@ const FacApp: React.FC = () => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [formattedValue, setFormattedValue] = useState<string>("");
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log("Success:", values);
     setDestinatario(values.destinatario);
     setValor(values.valor);
+
+    console.log("token", localStorage.getItem("token") as string);
+
+    // Call the addShipment mutation
+    const result = await useAddShipment(
+      localStorage.getItem("id") as string,
+      values.destinatario,
+      values.valor,
+      new Date().toISOString(),
+      localStorage.getItem("token") as string
+    );
+    console.log(result);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -74,91 +95,97 @@ const FacApp: React.FC = () => {
   return (
     <div>
       <MainLayout>
-      {successMessageVisible && (
-        <div
-          style={{
-            background: "#52c41a",
-            color: "white",
-            padding: "8px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CheckCircleOutlined style={{ marginRight: "8px" }} />
-          Transacción enviada
-        </div>
-      )}
+        {successMessageVisible && (
+          <div
+            style={{
+              background: "#52c41a",
+              color: "white",
+              padding: "8px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CheckCircleOutlined style={{ marginRight: "8px" }} />
+            Transacción enviada
+          </div>
+        )}
 
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: false }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-        form={form}
-      >
-        <h2> FACTURAS</h2>
-        <Form.Item
-          label="Destinatario"
-          name="destinatario"
-          rules={[
-            { required: true, message: "Por favor ingrese el destinatario!" },
-          ]}
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 600 }}
+          initialValues={{ remember: false }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          form={form}
         >
-          <Input />
-        </Form.Item>
+          <h2> FACTURAS</h2>
+          <Form.Item
+            label="Destinatario"
+            name="destinatario"
+            rules={[
+              { required: true, message: "Por favor ingrese el destinatario!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          label="Valor"
-          name="valor"
-          rules={[
-            {
-              required: true,
-              message: "Por favor ingrese el valor de la transacción",
-            },
-          ]}
-        >
-          <Input value={formattedValue} onChange={handleInputChange} />
-        </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
-          rules={[
-            {
-              required: true,
-              message: "Debes aceptar los terminos y condiciones",
-              validator: (_, value) => {
-                return value ? Promise.resolve() : Promise.reject();
+          <Form.Item
+            label="Valor"
+            name="valor"
+            rules={[
+              {
+                required: true,
+                message: "Por favor ingrese el valor de la transacción",
               },
-            },
-          ]}
-        >
-          <Checkbox>
-            Acepto los{" "}
-            <Popover
-              content={termsAndConditionsContent}
-              title="Terminos y condiciones"
-              trigger="click"
-            >
-              <span style={{ textDecoration: "underline", cursor: "pointer" }}>
-                términos y condiciones
-              </span>
-            </Popover>
-          </Checkbox>
-        </Form.Item>
+            ]}
+          >
+            <InputNumber
+              style={{ width: "100%" }}
+              value={formattedValue}
+              // onChange={handleInputChange}
+            />
+          </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item
+            name="remember"
+            valuePropName="checked"
+            wrapperCol={{ offset: 8, span: 16 }}
+            rules={[
+              {
+                required: true,
+                message: "Debes aceptar los terminos y condiciones",
+                validator: (_, value) => {
+                  return value ? Promise.resolve() : Promise.reject();
+                },
+              },
+            ]}
+          >
+            <Checkbox>
+              Acepto los{" "}
+              <Popover
+                content={termsAndConditionsContent}
+                title="Terminos y condiciones"
+                trigger="click"
+              >
+                <span
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                >
+                  términos y condiciones
+                </span>
+              </Popover>
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </MainLayout>
     </div>
   );

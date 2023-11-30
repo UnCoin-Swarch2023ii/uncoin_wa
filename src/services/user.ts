@@ -7,7 +7,7 @@ const SIGNIN = gql`
       token
       users {
         id
-        userName
+        username
         userLastName
         password
         document
@@ -23,7 +23,7 @@ const REGISTER = gql`
       token
       users {
         id
-        userName
+        username
         userLastName
         password
         document
@@ -36,13 +36,13 @@ const REGISTER = gql`
 const GETUSER = gql`
   query userByDocument($document: Int, $token: String) {
     userByDocument(document: $document, token: $token) {
-        id
-        userName
-        userLastName
-        password
-        document
-        balance
-        enable
+      id
+      username
+      userLastName
+      password
+      document
+      balance
+      enable
     }
   }
 `;
@@ -61,7 +61,6 @@ export const useSignIn = async (input: any) => {
 };
 
 export const useSignUp = async (input: any) => {
-
   try {
     client.cache.reset();
     const result = await client.mutate({
@@ -74,13 +73,13 @@ export const useSignUp = async (input: any) => {
   }
 };
 
-export const getUser = async (token : any,document: any) => {
+export const getUser = async (token: any, document: any) => {
   try {
     client.cache.reset();
     //console.log("input", input);
     const result = await client.query({
       query: GETUSER,
-      variables: { token,document },
+      variables: { token, document },
     });
     return result.data;
   } catch (error) {

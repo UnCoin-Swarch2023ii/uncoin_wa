@@ -11,12 +11,15 @@ import {
 import { getUser } from "@/services/user";
 import Link from "next/link";
 const Page = () => {
-  const [balance, setBalance] = useState(localStorage.getItem("balance"));
+  const [balance, setBalance] = useState(0);
   const getData = async () => {
     console.log(localStorage.getItem("token"));
-    //const resp = await getUser(localStorage.getItem("token"),+(localStorage.getItem("id") as string));
-    //console.log(resp);
-    //setBalance(resp.data.data.getUser.balance);
+    const { userByDocument } = await getUser(
+      localStorage.getItem("token"),
+      +(localStorage.getItem("id") as string)
+    );
+
+    setBalance(userByDocument.balance);
   };
   useEffect(() => {
     getData();
@@ -39,7 +42,7 @@ const Page = () => {
             precision={2}
           />
 
-          <Button className="updateButton">
+          <Button className="updateButton" onClick={getData}>
             Actualizar
             {/* <RedoOutlined /> */}
           </Button>

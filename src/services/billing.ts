@@ -28,3 +28,46 @@ export const useGetShipmentsByUser = async (
     return [];
   }
 };
+
+const ADD_SHIPMENT = gql`
+  mutation addShipment(
+    $userId: String
+    $companyId: String
+    $shipmentValue: Float
+    $shipmentDate: String
+    $token: String
+  ) {
+    addShipment(
+      userId: $userId
+      companyId: $companyId
+      shipmentValue: $shipmentValue
+      shipmentDate: $shipmentDate
+      token: $token
+    ) {
+      _id
+      userId
+      companyId
+      shipmentValue
+      shipmentDate
+    }
+  }
+`;
+
+export const useAddShipment = async (
+  userId: String,
+  companyId: String,
+  shipmentValue: Number,
+  shipmentDate: String,
+  token: String
+) => {
+  try {
+    client.cache.reset();
+    const result = await client.mutate({
+      mutation: ADD_SHIPMENT,
+      variables: { userId, companyId, shipmentValue, shipmentDate, token },
+    });
+    return result.data.addShipment;
+  } catch (error) {
+    throw error; // Re-throw the error to the caller if needed
+  }
+};
